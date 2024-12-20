@@ -55,12 +55,12 @@ export const DescriptionForm = ({
     console.log("values:", values);
     try {
       await axios.patch(`/api/courses/${courseId}`, values);
-      toast.success("Course title updated");
+      toast.success("Course description updated");
       toggleEdit();
       router.refresh();
     } catch (error) {
-      toast.error("Failed to update course title");
-      console.error("[TITLE_FORM]", error);
+      toast.error("Failed to update course description");
+      console.error("[DESCRIPTION_FORM]", error);
     }
   };
 
