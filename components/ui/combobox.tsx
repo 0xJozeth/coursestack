@@ -52,7 +52,6 @@ export const Combobox = ({ options, value, onChange }: ComboboxProps) => {
               {options.map((option) => (
                 <CommandItem
                   key={option.value}
-                  value={option.value}
                   onSelect={() => {
                     onChange(option.value === value ? "" : option.value);
                     setOpen(false);
