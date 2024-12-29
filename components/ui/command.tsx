@@ -10,16 +10,20 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 const Command = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive>,
-  React.ComponentPropsWithoutRef<typeof CommandPrimitive>
+  React.ComponentPropsWithoutRef<typeof CommandPrimitive> & {
+    className?: string;
+  }
 >(({ className, ...props }, ref) => (
-  <CommandPrimitive
-    ref={ref}
+  <div
+    ref={ref as React.Ref<HTMLDivElement>}
     className={cn(
       "flex h-full w-full flex-col overflow-hidden rounded-md bg-white text-slate-950 dark:bg-slate-950 dark:text-slate-50",
       className
     )}
     {...props}
-  ></CommandPrimitive>
+  >
+    <CommandPrimitive {...props} />
+  </div>
 ));
 Command.displayName = CommandPrimitive.displayName;
 
@@ -37,7 +41,9 @@ const CommandDialog = ({ children, ...props }: DialogProps) => {
 
 const CommandInput = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive.Input>,
-  React.ComponentPropsWithoutRef<typeof CommandPrimitive.Input>
+  React.ComponentPropsWithoutRef<typeof CommandPrimitive.Input> & {
+    placeholder?: string;
+  }
 >(({ className, ...props }, ref) => (
   <div className="flex items-center border-b px-3" cmdk-input-wrapper="">
     <Search className="mr-2 h-4 w-4 shrink-0 opacity-50" />
