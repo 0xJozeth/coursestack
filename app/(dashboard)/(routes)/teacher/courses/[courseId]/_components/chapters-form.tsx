@@ -22,6 +22,7 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Chapter, Course } from "@prisma/client";
+import { ChaptersList } from "./chapters-list";
 
 interface ChaptersFormProps {
   initialData: Course & { chapters: Chapter[] };
@@ -58,7 +59,20 @@ export const ChaptersForm = ({ initialData, courseId }: ChaptersFormProps) => {
       router.refresh();
     } catch (error) {
       toast.error("Failed to create chapter");
-      console.error("[DESCRIPTION_FORM]", error);
+      console.error("[CHAPTERS_FORM]", error);
+    }
+  };
+
+  const onReorder = async (updateData: { id: string; position: number }[]) => {
+    try {
+      await axios.put(`/api/courses/${courseId}/chapters/reorder`, {
+        list: updateData,
+      });
+      toast.success("Chapters reordered");
+      router.refresh();
+    } catch (error) {
+      toast.error("Failed to reorder chapters");
+      console.error("[CHAPTERS_FORM]", error);
     }
   };
 
@@ -110,8 +124,12 @@ export const ChaptersForm = ({ initialData, courseId }: ChaptersFormProps) => {
             !initialData.chapters.length && "text-slate-500 italic"
           )}
         >
-          {initialData.chapters.length > 0 && "No chapters"}
-          {/* TODO: Add a list of chapters */}
+          {!initialData.chapters.length && "No chapters"}
+          <ChaptersList
+            onEdit={() => {}}
+            onReorder={onReorder}
+            items={initialData.chapters || []}
+          />
         </div>
       )}
       {!isCreating && (
